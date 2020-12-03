@@ -28,6 +28,7 @@ import { FailureTitle } from './components/FailureTitle';
 import { Alphabet } from './components/Alphabet';
 import { StartScreen } from './components/StartScreen';
 import { pickWord } from './domains/Hangman';
+import {EndScreen} from "./components/EndScreen";
 
 type GameData = {
     alphabet: Array<Letter>;
@@ -127,36 +128,10 @@ export default function Hangman() {
                 </div>
             ),
             score => (
-                <div className="container hangman__background">
-                    <div className="nes-badge">
-                        <span className="is-dark"> Bravo !!! </span>
-                    </div>
-                    <div className="layout__row">
-                        <i className="nes-icon trophy is-large hangman__trophy" />
-                    </div>
-                    <span>{`score: ${score}`}</span>
-                    <button
-                        type="button"
-                        className="nes-btn is-primary-hangman"
-                        onClick={startGame}
-                    >
-                        Replay !
-                    </button>
-                </div>
+                <EndScreen score={score} onClick={startGame} />
             ),
             score => (
-                <div className="container hangman__background">
-                    <div className="nes-container is-rounded">Perdu :(</div>
-                    <Image count={7} />
-                    <span>{`score: ${score}`}</span>
-                    <button
-                        type="button"
-                        className="nes-btn is-primary-hangman"
-                        onClick={startGame}
-                    >
-                        Replay !
-                    </button>
-                </div>
+                <EndScreen score={score} onClick={startGame} />
             )
         )
     );
