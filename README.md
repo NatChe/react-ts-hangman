@@ -6,5 +6,4 @@ Run `npm start to start the project
 
 ### TODO
 * Add tests
-* Show the word to guess when lost
 * improve styling and style naming

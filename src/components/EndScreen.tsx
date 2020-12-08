@@ -2,13 +2,14 @@ import React from 'react';
 import {Image} from "./Image";
 
 type StartScreenProps = {
-    score: number;
+    scoreData: { score: number, word: string };
     onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 export const EndScreen: React.FunctionComponent<StartScreenProps> = ({
-                                                                           score, onClick,
+                                                                           scoreData, onClick,
                                                                        }) => {
+    const { score, word } = scoreData;
 
     const hasWon = score > 0;
 
@@ -23,6 +24,7 @@ export const EndScreen: React.FunctionComponent<StartScreenProps> = ({
                     : <Image count={7}/>
                 }
             </div>
+            {!hasWon && <span>The word was <strong>{`${word}`}</strong></span>}
             <span>{`score: ${score}`}</span>
             <button
                 type="button"

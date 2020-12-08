@@ -28,7 +28,7 @@ import { FailureTitle } from './components/FailureTitle';
 import { Alphabet } from './components/Alphabet';
 import { StartScreen } from './components/StartScreen';
 import { pickWord } from './domains/Hangman';
-import {EndScreen} from "./components/EndScreen";
+import { EndScreen } from './components/EndScreen';
 
 type GameData = {
     alphabet: Array<Letter>;
@@ -37,7 +37,7 @@ type GameData = {
     playedWords: Array<string>;
 };
 
-type Score = number;
+type Score = { score: number, word: string };
 
 type Message = 'letterSent';
 
@@ -75,9 +75,9 @@ function updateGameData(msg: Message, payload: any) {
 
 function checkGameState(gameData: GameData) {
     if (gameData.failuresCount >= 7 && !isGuessed(gameData.currentWord)) {
-        return lose(0);
+        return lose({ score: 0, word: gameData.currentWord.value });
     } else if (isGuessed(gameData.currentWord)) {
-        return win(10);
+        return win({ score: 10, word: gameData.currentWord.value });
     }
 
     return ongoing(gameData);
@@ -114,7 +114,7 @@ export default function Hangman() {
         gameState,
         fold(
             () => <StartScreen onClick={startGame} />,
-            gameData => (
+            (gameData) => (
                 <div className="hangman__container hangman__background">
                     <Image count={gameData.failuresCount} />
                     <div className="hangman__guess">
@@ -127,12 +127,8 @@ export default function Hangman() {
                     />
                 </div>
             ),
-            score => (
-                <EndScreen score={score} onClick={startGame} />
-            ),
-            score => (
-                <EndScreen score={score} onClick={startGame} />
-            )
+            (score) => <EndScreen scoreData={score} onClick={startGame} />,
+            (score) => <EndScreen scoreData={score} onClick={startGame} />
         )
     );
 }
